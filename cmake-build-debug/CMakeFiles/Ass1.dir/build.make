@@ -43,10 +43,10 @@ RM = /media/hungdao1311/Other/Linux/clion-2017.2.2/bin/cmake/bin/cmake -E remove
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hungdao1311/Desktop/Ass1
+CMAKE_SOURCE_DIR = /home/hungdao1311/Documents/Ass1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hungdao1311/Desktop/Ass1/cmake-build-debug
+CMAKE_BINARY_DIR = /home/hungdao1311/Documents/Ass1/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Ass1.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/Ass1.dir/flags.make
 
 CMakeFiles/Ass1.dir/dbLib.cpp.o: CMakeFiles/Ass1.dir/flags.make
 CMakeFiles/Ass1.dir/dbLib.cpp.o: ../dbLib.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hungdao1311/Desktop/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Ass1.dir/dbLib.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ass1.dir/dbLib.cpp.o -c /home/hungdao1311/Desktop/Ass1/dbLib.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hungdao1311/Documents/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Ass1.dir/dbLib.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ass1.dir/dbLib.cpp.o -c /home/hungdao1311/Documents/Ass1/dbLib.cpp
 
 CMakeFiles/Ass1.dir/dbLib.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Ass1.dir/dbLib.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hungdao1311/Desktop/Ass1/dbLib.cpp > CMakeFiles/Ass1.dir/dbLib.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hungdao1311/Documents/Ass1/dbLib.cpp > CMakeFiles/Ass1.dir/dbLib.cpp.i
 
 CMakeFiles/Ass1.dir/dbLib.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Ass1.dir/dbLib.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hungdao1311/Desktop/Ass1/dbLib.cpp -o CMakeFiles/Ass1.dir/dbLib.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hungdao1311/Documents/Ass1/dbLib.cpp -o CMakeFiles/Ass1.dir/dbLib.cpp.s
 
 CMakeFiles/Ass1.dir/dbLib.cpp.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/Ass1.dir/dbLib.cpp.o.provides.build: CMakeFiles/Ass1.dir/dbLib.cpp.o
 
 CMakeFiles/Ass1.dir/eventLib.cpp.o: CMakeFiles/Ass1.dir/flags.make
 CMakeFiles/Ass1.dir/eventLib.cpp.o: ../eventLib.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hungdao1311/Desktop/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Ass1.dir/eventLib.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ass1.dir/eventLib.cpp.o -c /home/hungdao1311/Desktop/Ass1/eventLib.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hungdao1311/Documents/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Ass1.dir/eventLib.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ass1.dir/eventLib.cpp.o -c /home/hungdao1311/Documents/Ass1/eventLib.cpp
 
 CMakeFiles/Ass1.dir/eventLib.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Ass1.dir/eventLib.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hungdao1311/Desktop/Ass1/eventLib.cpp > CMakeFiles/Ass1.dir/eventLib.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hungdao1311/Documents/Ass1/eventLib.cpp > CMakeFiles/Ass1.dir/eventLib.cpp.i
 
 CMakeFiles/Ass1.dir/eventLib.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Ass1.dir/eventLib.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hungdao1311/Desktop/Ass1/eventLib.cpp -o CMakeFiles/Ass1.dir/eventLib.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hungdao1311/Documents/Ass1/eventLib.cpp -o CMakeFiles/Ass1.dir/eventLib.cpp.s
 
 CMakeFiles/Ass1.dir/eventLib.cpp.o.requires:
 
@@ -107,16 +107,16 @@ CMakeFiles/Ass1.dir/eventLib.cpp.o.provides.build: CMakeFiles/Ass1.dir/eventLib.
 
 CMakeFiles/Ass1.dir/main.cpp.o: CMakeFiles/Ass1.dir/flags.make
 CMakeFiles/Ass1.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hungdao1311/Desktop/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Ass1.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ass1.dir/main.cpp.o -c /home/hungdao1311/Desktop/Ass1/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hungdao1311/Documents/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Ass1.dir/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ass1.dir/main.cpp.o -c /home/hungdao1311/Documents/Ass1/main.cpp
 
 CMakeFiles/Ass1.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Ass1.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hungdao1311/Desktop/Ass1/main.cpp > CMakeFiles/Ass1.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hungdao1311/Documents/Ass1/main.cpp > CMakeFiles/Ass1.dir/main.cpp.i
 
 CMakeFiles/Ass1.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Ass1.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hungdao1311/Desktop/Ass1/main.cpp -o CMakeFiles/Ass1.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hungdao1311/Documents/Ass1/main.cpp -o CMakeFiles/Ass1.dir/main.cpp.s
 
 CMakeFiles/Ass1.dir/main.cpp.o.requires:
 
@@ -131,16 +131,16 @@ CMakeFiles/Ass1.dir/main.cpp.o.provides.build: CMakeFiles/Ass1.dir/main.cpp.o
 
 CMakeFiles/Ass1.dir/processData.cpp.o: CMakeFiles/Ass1.dir/flags.make
 CMakeFiles/Ass1.dir/processData.cpp.o: ../processData.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hungdao1311/Desktop/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Ass1.dir/processData.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ass1.dir/processData.cpp.o -c /home/hungdao1311/Desktop/Ass1/processData.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hungdao1311/Documents/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Ass1.dir/processData.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Ass1.dir/processData.cpp.o -c /home/hungdao1311/Documents/Ass1/processData.cpp
 
 CMakeFiles/Ass1.dir/processData.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Ass1.dir/processData.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hungdao1311/Desktop/Ass1/processData.cpp > CMakeFiles/Ass1.dir/processData.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hungdao1311/Documents/Ass1/processData.cpp > CMakeFiles/Ass1.dir/processData.cpp.i
 
 CMakeFiles/Ass1.dir/processData.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Ass1.dir/processData.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hungdao1311/Desktop/Ass1/processData.cpp -o CMakeFiles/Ass1.dir/processData.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hungdao1311/Documents/Ass1/processData.cpp -o CMakeFiles/Ass1.dir/processData.cpp.s
 
 CMakeFiles/Ass1.dir/processData.cpp.o.requires:
 
@@ -169,7 +169,7 @@ Ass1: CMakeFiles/Ass1.dir/main.cpp.o
 Ass1: CMakeFiles/Ass1.dir/processData.cpp.o
 Ass1: CMakeFiles/Ass1.dir/build.make
 Ass1: CMakeFiles/Ass1.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hungdao1311/Desktop/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Ass1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hungdao1311/Documents/Ass1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Ass1"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Ass1.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -189,6 +189,6 @@ CMakeFiles/Ass1.dir/clean:
 .PHONY : CMakeFiles/Ass1.dir/clean
 
 CMakeFiles/Ass1.dir/depend:
-	cd /home/hungdao1311/Desktop/Ass1/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hungdao1311/Desktop/Ass1 /home/hungdao1311/Desktop/Ass1 /home/hungdao1311/Desktop/Ass1/cmake-build-debug /home/hungdao1311/Desktop/Ass1/cmake-build-debug /home/hungdao1311/Desktop/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hungdao1311/Documents/Ass1/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hungdao1311/Documents/Ass1 /home/hungdao1311/Documents/Ass1 /home/hungdao1311/Documents/Ass1/cmake-build-debug /home/hungdao1311/Documents/Ass1/cmake-build-debug /home/hungdao1311/Documents/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Ass1.dir/depend
 

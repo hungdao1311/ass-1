@@ -19,7 +19,7 @@ int main(int narg, char** argv) {
     loadEvents(argv[1], eventList);
     //loadNinjaDB(argv[2], db);
     cout << eventList[0].code << eventList[1].code << endl;
-    cout << " 22222 " << endl;
+
     cout << fixed << setprecision(12);// preset for floating point numbers
     /// Process events
     //process(eventList, db);

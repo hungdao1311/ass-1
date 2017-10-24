@@ -16,11 +16,13 @@
 void loadEvents(char* fName, L1List<ninjaEvent_t> &eList) {
 	ifstream file;
     file.open(fName);
-    string str;
-    while(!file.eof()){
-        cin >> str;
-        ninjaEvent_t temp(str);
-        eList.push_back(temp);
+    string str, str1;
+    while(getline(file,str)){
+        istringstream ss(str);
+        while(ss >> str1) {
+            ninjaEvent_t temp(str1);
+            eList.push_back(temp);
+        }
     }
     file.close();
 }
