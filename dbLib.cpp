@@ -36,7 +36,7 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
 
     getline(file, str1); //skip 1st line
     int i = 0;
-    while (i<1) {
+    while (i<100) {
         /*string day, mon, year, hour, min, sec;
         getline(file, str1,',');
         getline(file, str1,',');
