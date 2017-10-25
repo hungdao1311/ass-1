@@ -17,33 +17,88 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
+
 #define pi 3.14159265358979323846
 #define earthRadiusKm 6371.0
 
 using namespace std;
 
-void    strPrintTime(char* des, time_t& t) {
-    tm *pTime = gmtime(&t);
+void strPrintTime(char *des, time_t &t) {
+    tm *pTime = localtime(&t);
     strftime(des, 26, "%Y-%m-%d %H:%M:%S", pTime);
 }
 
-void loadNinjaDB(char* fName, L1List<NinjaInfo_t> &db) {
-	// TODO: write code to load information from file into db
+
+void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
+    ifstream file;
+    file.open(fName);
+    string str1;
+
+    getline(file, str1); //skip 1st line
+    int i = 0;
+    while (i<1) {
+        /*string day, mon, year, hour, min, sec;
+        getline(file, str1,',');
+        getline(file, str1,',');
+        struct tm tm;
+        NinjaInfo_t temp;
+        sscanf(str1.c_str(), "%s/%s/%s %s:%s:%s", &day, &mon, &year, &hour, &min, &sec);
+        tm.tm_mday = stoi(day);
+        tm.tm_mon = stoi(mon);
+        tm.tm_year = stoi(year);
+        tm.tm_hour = stoi(hour);
+        tm.tm_min = stoi(min);
+        tm.tm_sec = stoi(sec);*/
+        getline(file, str1,',');
+        getline(file, str1,',');
+        istringstream data(str1);
+        struct tm tm;
+        char empty;
+        NinjaInfo_t temp;
+        data >> tm.tm_mday >> empty >> tm.tm_mon >> empty >> tm.tm_year >> tm.tm_hour >> empty >> tm.tm_min >> empty >> tm.tm_sec;
+        tm.tm_year -= 1900;
+        tm.tm_mon -= 1;
+        temp.timestamp = mktime(&tm);
+        data.clear();
+
+        getline(file, str1,',');
+        data.str(str1);
+        data >> temp.id;
+        data.clear();
+
+
+        getline(file, str1,',');
+        data.str(str1);
+        data >> temp.longitude;
+        data.clear();
+
+
+        getline(file, str1,',');
+        data.str(str1);
+        data >> temp.latitude;
+
+
+        getline(file,str1,'\n');
+
+        db.push_back(temp);
+        i++;
+    }
+
 
 }
 
-bool parseNinjaInfo(char* pBuf, NinjaInfo_t& nInfo) {
+bool parseNinjaInfo(char *pBuf, NinjaInfo_t &nInfo) {
     // TODO: write code to parse information from a string buffer, ignore if you don't use it
     return true;
 }
 
 
-void process(L1List<ninjaEvent_t>& eventList, L1List<NinjaInfo_t>& bList) {
-    void*   pGData = NULL;
+void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
+    void *pGData = NULL;
     initNinjaGlobalData(&pGData);
 
     while (!eventList.isEmpty()) {
-        if(!processEvent(eventList[0], bList, pGData))
+        if (!processEvent(eventList[0], bList, pGData))
             cout << eventList[0].code << " is an invalid event\n";
         eventList.removeHead();
     }
@@ -52,19 +107,19 @@ void process(L1List<ninjaEvent_t>& eventList, L1List<NinjaInfo_t>& bList) {
 }
 
 
-bool initNinjaGlobalData(void** pGData) {
+bool initNinjaGlobalData(void **pGData) {
     /// TODO: You should define this function if you would like to use some extra data
     /// the data should be allocated and pass the address into pGData
     return true;
 }
 
-void releaseNinjaGlobalData(void* pGData) {
+void releaseNinjaGlobalData(void *pGData) {
     /// TODO: You should define this function if you allocated extra data at initialization stage
     /// The data pointed by pGData should be released
 }
 
 
-void printNinjaInfo(NinjaInfo_t& b) {
+void printNinjaInfo(NinjaInfo_t &b) {
     printf("%s: (%0.5f, %0.5f), %s\n", b.id, b.longitude, b.latitude, ctime(&b.timestamp));
 }
 
@@ -93,7 +148,7 @@ double distanceEarth(double lat1d, double lon1d, double lat2d, double lon2d) {
     lon1r = deg2rad(lon1d);
     lat2r = deg2rad(lat2d);
     lon2r = deg2rad(lon2d);
-    u = sin((lat2r - lat1r)/2);
-    v = sin((lon2r - lon1r)/2);
+    u = sin((lat2r - lat1r) / 2);
+    v = sin((lon2r - lon1r) / 2);
     return 2.0 * earthRadiusKm * asin(sqrt(u * u + cos(lat1r) * cos(lat2r) * v * v));
 }

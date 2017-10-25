@@ -17,8 +17,8 @@ int main(int narg, char** argv) {
     L1List<ninjaEvent_t>  eventList;
     L1List<NinjaInfo_t>   db;// database of NinjaInfo
     loadEvents(argv[1], eventList);
-    //loadNinjaDB(argv[2], db);
-    cout << eventList[0].code << eventList[1].code << endl;
+    loadNinjaDB(argv[2], db);
+    display(db);
 
     cout << fixed << setprecision(12);// preset for floating point numbers
     /// Process events
