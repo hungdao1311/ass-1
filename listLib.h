@@ -62,7 +62,7 @@ public:
     int     insert(int i, T& a);
     int     remove(int i);
 
-    int     push_back(T& a);
+    L1Item<T>*   push_back(T& a, L1Item<T> *p);
     int     insertHead(T& a);
 
     int     removeHead();
@@ -89,18 +89,18 @@ public:
 /// Insert item to the end of the list
 /// Return 0 if success
 template <class T>
-int L1List<T>::push_back(T &a) {
+L1Item<T>* L1List<T>::push_back(T &a, L1Item<T>* p) {
     if (_pHead == NULL) {
         _pHead = new L1Item<T>(a);
+        _size++;
+        return _pHead;
     }
     else {
-        L1Item<T>   *p = _pHead;
-        while (p->pNext) p = p->pNext;
         p->pNext = new L1Item<T>(a);
     }
 
     _size++;
-    return 0;
+    return p->pNext;
 }
 
 /// Insert item to the front of the list

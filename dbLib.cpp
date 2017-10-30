@@ -33,22 +33,10 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
     ifstream file;
     file.open(fName);
     string str1;
-
+    L1Item<NinjaInfo_t> *tail = new L1Item<NinjaInfo_t>();
     getline(file, str1); //skip 1st line
-    int i = 0;
-    while (i<100) {
-        /*string day, mon, year, hour, min, sec;
-        getline(file, str1,',');
-        getline(file, str1,',');
-        struct tm tm;
-        NinjaInfo_t temp;
-        sscanf(str1.c_str(), "%s/%s/%s %s:%s:%s", &day, &mon, &year, &hour, &min, &sec);
-        tm.tm_mday = stoi(day);
-        tm.tm_mon = stoi(mon);
-        tm.tm_year = stoi(year);
-        tm.tm_hour = stoi(hour);
-        tm.tm_min = stoi(min);
-        tm.tm_sec = stoi(sec);*/
+    while (!file.eof()) {
+
         getline(file, str1,',');
         getline(file, str1,',');
         istringstream data(str1);
@@ -80,8 +68,8 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
 
         getline(file,str1,'\n');
 
-        db.push_back(temp);
-        i++;
+        tail=db.push_back(temp,tail);
+
     }
 
 
