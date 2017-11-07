@@ -85,6 +85,19 @@ void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
     void *pGData = NULL;
     initNinjaGlobalData(&pGData);
 
+    // copied eventList
+    L1List<ninjaEvent_t> eventHolder;
+    L1Item<ninjaEvent_t> *tailEvent = new L1Item<ninjaEvent_t>();
+
+    // copied dtBase
+    int i = 0;
+
+    while(i < eventList.getSize()){
+        ninjaEvent_t temp(eventList[i].code);
+        tailEvent=eventHolder.push_back(temp, tailEvent);
+        i++;
+    }
+
     while (!eventList.isEmpty()) {
         if (!processEvent(eventList[0], bList, pGData))
             cout << eventList[0].code << " is an invalid event\n";
