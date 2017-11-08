@@ -84,14 +84,38 @@ bool parseNinjaInfo(char *pBuf, NinjaInfo_t &nInfo) {
 void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
     void *pGData = NULL;
     initNinjaGlobalData(&pGData);
+    // loop counter
+    int i,j = 0;
 
     // copied eventList
     L1List<ninjaEvent_t> eventHolder;
     L1Item<ninjaEvent_t> *tailEvent = new L1Item<ninjaEvent_t>();
 
-    // copied dtBase
-    int i = 0;
+    // ID list
 
+    L1List<NinjaInfo_t> aggNinja;
+    L1Item<NinjaInfo_t> *tailID = new L1Item<NinjaInfo_t>();
+    NinjaInfo_t pHold = bList[0];
+
+    bool checkExist(L1List<NinjaInfo_t> &list, char* id){
+        int k = 0;
+        while(k < list.getSize()){
+            if(strcmp(list[k].id, id) == 0) return true;
+            k++;
+        }
+        return false;
+    }
+
+    // store ID
+    while(j < bList.getSize()){
+        NinjaInfo_t temp(bList[j]);
+        if(!checkExist(aggNinja, temp.id)){
+            tailID=aggNinja.push_back(temp, tailID);
+        }
+        j++;
+    }
+
+    // store event
     while(i < eventList.getSize()){
         ninjaEvent_t temp(eventList[i].code);
         tailEvent=eventHolder.push_back(temp, tailEvent);
