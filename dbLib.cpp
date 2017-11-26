@@ -50,6 +50,12 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
         data.clear();
 
         getline(file, str1,',');
+        if(str1.length() < 4){
+            int j = 4 - str1.length();
+            for(int i = 0; i < j; i++){
+                str1 = "0" + str1;
+            }
+        }
         data.str(str1);
         data >> temp.id;
         data.clear();
@@ -85,35 +91,11 @@ void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
     void *pGData = NULL;
     initNinjaGlobalData(&pGData);
     // loop counter
-    int i,j = 0;
+    int i = 0;
 
     // copied eventList
     L1List<ninjaEvent_t> eventHolder;
     L1Item<ninjaEvent_t> *tailEvent = new L1Item<ninjaEvent_t>();
-
-    // ID list
-
-    L1List<NinjaInfo_t> aggNinja;
-    L1Item<NinjaInfo_t> *tailID = new L1Item<NinjaInfo_t>();
-    NinjaInfo_t pHold = bList[0];
-
-    bool checkExist(L1List<NinjaInfo_t> &list, char* id){
-        int k = 0;
-        while(k < list.getSize()){
-            if(strcmp(list[k].id, id) == 0) return true;
-            k++;
-        }
-        return false;
-    }
-
-    // store ID
-    while(j < bList.getSize()){
-        NinjaInfo_t temp(bList[j]);
-        if(!checkExist(aggNinja, temp.id)){
-            tailID=aggNinja.push_back(temp, tailID);
-        }
-        j++;
-    }
 
     // store event
     while(i < eventList.getSize()){
@@ -123,6 +105,7 @@ void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
     }
 
     while (!eventList.isEmpty()) {
+        if(strcmp(eventList[0].code, "0") == 0) pGData = &eventHolder;
         if (!processEvent(eventList[0], bList, pGData))
             cout << eventList[0].code << " is an invalid event\n";
         eventList.removeHead();

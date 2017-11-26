@@ -24,8 +24,8 @@ int main(int narg, char** argv) {
 
     cout << fixed << setprecision(12);// preset for floating point numbers
     /// Process events
-    //process(eventList, db);
-    cout << eventList.getSize() << endl;
+    process(eventList, db);
+
     cout << resetiosflags(ios::showbase) << setprecision(-1);
 
     auto end = get_time::now();
