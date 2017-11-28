@@ -17,7 +17,6 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
-#include <bits/unordered_set.h>
 
 #define pi 3.14159265358979323846
 #define earthRadiusKm 6371.0
@@ -43,7 +42,7 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
         struct tm tm;
         char empty;
         NinjaInfo_t temp;
-        data >> tm.tm_mday >> empty >> tm.tm_mon >> empty >> tm.tm_year >> tm.tm_hour >> empty >> tm.tm_min >> empty
+        data >> tm.tm_mon >> empty >> tm.tm_mday >> empty >> tm.tm_year >> tm.tm_hour >> empty >> tm.tm_min >> empty
              >> tm.tm_sec;
         tm.tm_year -= 1900;
         tm.tm_mon -= 1;
@@ -92,23 +91,44 @@ void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
     void *pGData = NULL;
     initNinjaGlobalData(&pGData);
     // loop counter
-    int i, j = 0;
+    int i = 0;
 
     // copied eventList
     L1List<ninjaEvent_t> eventHolder;
     L1Item<ninjaEvent_t> *tailEvent = new L1Item<ninjaEvent_t>();
 
-    unordered_set<const char*> idList;
+    // aggList
+    L1List<NinjaInfo_t> aggNinja;
+    L1Item<NinjaInfo_t> *tailID = new L1Item<NinjaInfo_t>();
+    L1Item<NinjaInfo_t> *tempNode = bList.getHead();
+    // Create unique db
+    while (tempNode) {
+        bool exist = false;
+        L1Item<NinjaInfo_t> *temp2 = aggNinja.getHead();
+        while (temp2) {
+            if (strcmp(tempNode->data.id, temp2->data.id) == 0) {
+                exist = true;
+                break;
+            }
+            temp2 = temp2->pNext;
+        }
+        if (!exist) {
+            tailID = aggNinja.push_back(tempNode->data, tailID);
+        }
+        tempNode = tempNode->pNext;
+    }
 
     // store event
     while (i < eventList.getSize()) {
-        ninjaEvent_t temp(eventList[i].code);
-        tailEvent = eventHolder.push_back(temp, tailEvent);
+        ninjaEvent_t tempEvent(eventList[i].code);
+        tailEvent = eventHolder.push_back(tempEvent, tailEvent);
         i++;
     }
 
     while (!eventList.isEmpty()) {
         if (strcmp(eventList[0].code, "0") == 0) pGData = &eventHolder;
+        if (strcmp(eventList[0].code, "2") == 0) pGData = &tailID;
+        if (strcmp(eventList[0].code, "3") == 0 || strcmp(eventList[0].code, "4") == 0) pGData = &aggNinja;
 
         if (!processEvent(eventList[0], bList, pGData))
             cout << eventList[0].code << " is an invalid event\n";

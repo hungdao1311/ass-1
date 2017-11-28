@@ -37,6 +37,7 @@ struct L1Item {
     L1Item<T> *pNext;
     L1Item() : pNext(NULL) {}
     L1Item(T &a) : data(a), pNext(NULL) {}
+    L1Item<T>* getHead();
 };
 
 template <class T>
@@ -54,6 +55,10 @@ public:
     size_t  getSize() {
         return _size;
     }
+
+    L1Item<T>* getHead(){
+        return _pHead;
+    };
 
     T&      at(int i);
     T&      operator[](int i);
@@ -85,6 +90,8 @@ public:
         }
     }
 };
+
+
 
 /// Insert item to the end of the list
 /// Return 0 if success

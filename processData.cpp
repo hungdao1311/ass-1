@@ -4,7 +4,6 @@
  * Description : student code for Assignment 1 - Data structures and Algorithms - Fall 2017
  * =========================================================================================
  */
-#include <bits/unordered_set.h>
 #include "eventLib.h"
 #include "dbLib.h"
 
@@ -29,8 +28,35 @@ void process_0(void* pGData){
     cout << endl;
 }
 
+void process_2(void* pGData) {
+    L1List<NinjaInfo_t>* tail;
+    tail = static_cast<L1List<NinjaInfo_t>*>(pGData);
+    L1Item<NinjaInfo_t>* temp = tail->getHead();
+    while(temp->pNext){
+        temp = temp ->pNext;
+    }
+    cout << "2: " << temp->data.id << endl;
+}
 
+void process_3(void* pGData) {
+    L1List<NinjaInfo_t> *list;
+    list = static_cast<L1List<NinjaInfo_t> *>(pGData);
+    cout << "3: " << list->getSize() << endl;
+}
 
+void process_4(void* pGData) {
+    L1List<NinjaInfo_t>* list;
+    list = static_cast<L1List<NinjaInfo_t>*>(pGData);
+    L1Item<NinjaInfo_t>* node = list->getHead();
+    const char* temp = node->data.id;
+    while(node){
+        if(strcmp(temp, node->data.id) < 0){
+            temp = node->data.id;
+        }
+        node = node->pNext;
+    }
+    cout << "3: " << temp << endl;
+}
 
 
 
@@ -63,10 +89,13 @@ bool processEvent(ninjaEvent_t& event, L1List<NinjaInfo_t>& nList, void* pGData)
             cout << "1: " << nList[0].id << endl;
             break;
         case 2:
-            cout << "2: " << nList[nList.getSize() - 1].id << endl;
+            process_2(pGData);
             break;
         case 3:
-
+            process_3(pGData);
+            break;
+        case 4:
+            process_4(pGData);
             break;
         default: return false;
     }
