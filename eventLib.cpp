@@ -17,11 +17,12 @@ void loadEvents(char* fName, L1List<ninjaEvent_t> &eList) {
 	ifstream file;
     file.open(fName);
     string str, str1;
+    L1Item<ninjaEvent_t> *tail = new L1Item<ninjaEvent_t>();
     while(getline(file,str)){
         istringstream ss(str);
         while(ss >> str1) {
             ninjaEvent_t temp(str1);
-            eList.push_back(temp);
+            tail=eList.push_back(temp,tail);
         }
     }
     file.close();

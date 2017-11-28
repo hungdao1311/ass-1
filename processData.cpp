@@ -28,21 +28,26 @@ void process_0(void* pGData){
     cout << endl;
 }
 
-void process_2(L1List<NinjaInfo_t>& nList) {
-    L1Item<NinjaInfo_t>* temp = nList.getHead();
+void process_2(void* pGData) {
+    L1List<NinjaInfo_t>* tail;
+    tail = static_cast<L1List<NinjaInfo_t>*>(pGData);
+    L1Item<NinjaInfo_t>* temp = tail->getHead();
     while(temp->pNext){
         temp = temp ->pNext;
     }
     cout << "2: " << temp->data.id << endl;
 }
 
-void process_3(L1List<NinjaInfo_t>& nList) {
-
-    cout << "3: " << nList.getSize() << endl;
+void process_3(void* pGData) {
+    L1List<NinjaInfo_t> *list;
+    list = static_cast<L1List<NinjaInfo_t> *>(pGData);
+    cout << "3: " << list->getSize() << endl;
 }
 
-void process_4(L1List<NinjaInfo_t>& nList) {
-    L1Item<NinjaInfo_t>* node = nList.getHead();
+void process_4(void* pGData) {
+    L1List<NinjaInfo_t>* list;
+    list = static_cast<L1List<NinjaInfo_t>*>(pGData);
+    L1Item<NinjaInfo_t>* node = list->getHead();
     const char* temp = node->data.id;
     while(node){
         if(strcmp(temp, node->data.id) < 0){
@@ -50,10 +55,8 @@ void process_4(L1List<NinjaInfo_t>& nList) {
         }
         node = node->pNext;
     }
-    cout << "4: " << temp << endl;
+    cout << "3: " << temp << endl;
 }
-
-
 
 
 
@@ -86,13 +89,13 @@ bool processEvent(ninjaEvent_t& event, L1List<NinjaInfo_t>& nList, void* pGData)
             cout << "1: " << nList[0].id << endl;
             break;
         case 2:
-            process_2(nList);
+            process_2(pGData);
             break;
         case 3:
-            process_3(nList);
+            process_3(pGData);
             break;
         case 4:
-            process_4(nList);
+            process_4(pGData);
             break;
         default: return false;
     }

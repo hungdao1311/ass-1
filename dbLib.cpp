@@ -33,8 +33,8 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
     ifstream file;
     file.open(fName);
     string str1;
+    L1Item<NinjaInfo_t> *tail = new L1Item<NinjaInfo_t>();
     getline(file, str1); //skip 1st line
-
     while (getline(file, str1, ',')) {
 
         getline(file, str1, ',');
@@ -74,20 +74,8 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
 
         getline(file, str1, '\n');
 
+        tail = db.push_back(temp, tail);
 
-        bool exist = false;
-        L1Item<NinjaInfo_t>* tempDB = db.getHead();
-        while(tempDB){
-            if(strcmp(temp.id, tempDB->data.id) == 0){
-                tempDB->push_child(temp);
-                exist = true;
-                break;
-            }
-            tempDB = tempDB->pNext;
-        }
-        if(!exist){
-            db.push_back(temp);
-        }
     }
 
 
@@ -107,16 +95,40 @@ void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
 
     // copied eventList
     L1List<ninjaEvent_t> eventHolder;
+    L1Item<ninjaEvent_t> *tailEvent = new L1Item<ninjaEvent_t>();
+
+    // aggList
+    L1List<NinjaInfo_t> aggNinja;
+    L1Item<NinjaInfo_t> *tailID = new L1Item<NinjaInfo_t>();
+    L1Item<NinjaInfo_t> *tempNode = bList.getHead();
+    // Create unique db
+    while (tempNode) {
+        bool exist = false;
+        L1Item<NinjaInfo_t> *temp2 = aggNinja.getHead();
+        while (temp2) {
+            if (strcmp(tempNode->data.id, temp2->data.id) == 0) {
+                exist = true;
+                break;
+            }
+            temp2 = temp2->pNext;
+        }
+        if (!exist) {
+            tailID = aggNinja.push_back(tempNode->data, tailID);
+        }
+        tempNode = tempNode->pNext;
+    }
 
     // store event
     while (i < eventList.getSize()) {
         ninjaEvent_t tempEvent(eventList[i].code);
-        eventHolder.push_back(tempEvent);
+        tailEvent = eventHolder.push_back(tempEvent, tailEvent);
         i++;
     }
 
     while (!eventList.isEmpty()) {
         if (strcmp(eventList[0].code, "0") == 0) pGData = &eventHolder;
+        if (strcmp(eventList[0].code, "2") == 0) pGData = &tailID;
+        if (strcmp(eventList[0].code, "3") == 0 || strcmp(eventList[0].code, "4") == 0) pGData = &aggNinja;
 
         if (!processEvent(eventList[0], bList, pGData))
             cout << eventList[0].code << " is an invalid event\n";
