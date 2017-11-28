@@ -35,17 +35,22 @@ template <class T>
 struct L1Item {
     T data;
     L1Item<T> *pNext;
-    L1Item() : pNext(NULL) {}
-    L1Item(T &a) : data(a), pNext(NULL) {}
-    L1Item<T>* getHead();
+    L1Item<T> *pChild;
+    L1Item<T> *pTail;
+    L1Item() : pNext(NULL), pChild(NULL), pTail(NULL) {}
+    L1Item(T &a) : data(a), pNext(NULL), pChild(NULL), pTail(NULL) {}
+    int push_child(T& child);
 };
 
 template <class T>
 class L1List {
-    L1Item<T>   *_pHead;// The head pointer of linked list
+    L1Item<T>   *_pHead;    // The head pointer of linked list
+    L1Item<T>   *_pTail;    // The tail pointer
     size_t      _size;// number of elements in this list
 public:
-    L1List() : _pHead(NULL), _size(0) {}
+    L1List() : _pHead(NULL), _pTail(NULL),  _size(0){}
+
+
     ~L1List();
 
     void    clean();
@@ -56,9 +61,17 @@ public:
         return _size;
     }
 
+
+
     L1Item<T>* getHead(){
         return _pHead;
-    };
+    }
+
+    L1Item<T>* getTail() {
+        return _pTail;
+    }
+
+
 
     T&      at(int i);
     T&      operator[](int i);
@@ -67,7 +80,7 @@ public:
     int     insert(int i, T& a);
     int     remove(int i);
 
-    L1Item<T>*   push_back(T& a, L1Item<T> *p);
+    int     push_back(T& a);
     int     insertHead(T& a);
 
     int     removeHead();
@@ -96,18 +109,25 @@ public:
 /// Insert item to the end of the list
 /// Return 0 if success
 template <class T>
-L1Item<T>* L1List<T>::push_back(T &a, L1Item<T>* p) {
+int L1List<T>::push_back(T &a) {
     if (_pHead == NULL) {
         _pHead = new L1Item<T>(a);
-        _size++;
-        return _pHead;
+        _pTail = _pHead;
     }
     else {
-        p->pNext = new L1Item<T>(a);
+        _pTail->pNext = new L1Item<T>(a);
+        _pTail = _pTail->pNext;
     }
-
     _size++;
-    return p->pNext;
+    return 0;
+}
+
+template<class T>
+int L1Item<T>::push_child(T& child){
+    if(pTail == NULL) pTail = this;
+    pTail->pChild = new L1Item<T>(child);
+    pTail = pTail->pChild;
+    return 0;
 }
 
 /// Insert item to the front of the list
