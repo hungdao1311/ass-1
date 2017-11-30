@@ -1,4 +1,4 @@
-# Install script for directory: /home/hungdao1311/Documents/Ass1
+# Install script for directory: /home/hungdao1311/Documents/DSA-Ass1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/hungdao1311/Documents/Ass1/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/hungdao1311/Documents/DSA-Ass1/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
