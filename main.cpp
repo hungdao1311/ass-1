@@ -26,7 +26,6 @@ int main(int narg, char** argv) {
     /// Process events
 
     process(eventList, db);
-    cout << db.getSize() << endl;
     cout << resetiosflags(ios::showbase) << setprecision(-1);
 
     auto end = get_time::now();

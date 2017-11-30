@@ -30,49 +30,42 @@ void strPrintTime(char *des, time_t &t) {
 
 
 void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
-    ifstream file;
+    fstream file;
     file.open(fName);
     string str1;
     getline(file, str1); //skip 1st line
-    while (getline(file, str1, ',')) {
+    while (getline(file, str1, '\n')) {
 
-        getline(file, str1, ',');
-        istringstream data(str1);
         struct tm tm;
-        char empty;
+        char time[20];
+        char id[ID_MAX_LENGTH];
+        double empty;
+
         NinjaInfo_t temp;
-        data >> tm.tm_mon >> empty >> tm.tm_mday >> empty >> tm.tm_year >> tm.tm_hour >> empty >> tm.tm_min >> empty
-             >> tm.tm_sec;
+
+        //read all except time
+        sscanf(str1.c_str(), "%lf,%[^','],%[^','],%lf,%lf,%lf,%lf,%lf,%lf",
+               &empty, time, &temp.id, &temp.longitude, &temp.latitude, &empty, &empty, &empty, &empty);
+
+        //read time
+        sscanf(time, "%d/%d/%d %d:%d:%d",
+               &tm.tm_mon, &tm.tm_mday, &tm.tm_year, &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
+
         tm.tm_year -= 1900;
         tm.tm_mon -= 1;
         temp.timestamp = mktime(&tm);
-        data.clear();
 
-        getline(file, str1, ',');
-        if (str1.length() < 4) {
-            int j = 4 - str1.length();
-            for (int i = 0; i < j; i++) {
-                str1 = "0" + str1;
+        //padding ID
+        if (strlen(temp.id) < 4) {
+            int j = 4 - strlen(temp.id);
+            for (int i = 4; i >= 0; i--) {
+                if (i - j >= 0) temp.id[i] = temp.id[i - j];
+                else temp.id[i] = '0';
             }
         }
-        data.str(str1);
-        data >> temp.id;
-        data.clear();
 
 
-        getline(file, str1, ',');
-        data.str(str1);
-        data >> temp.longitude;
-        data.clear();
-
-
-        getline(file, str1, ',');
-        data.str(str1);
-        data >> temp.latitude;
-
-
-        getline(file, str1, '\n');
-
+        //preprocess database
         auto* tempDB = db.getHead();
         bool exist = false;
             while(tempDB){
@@ -85,8 +78,8 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
             if(!exist){
                 db.push_back(temp);
             }
+        }
 
-    }
 
 
 }
