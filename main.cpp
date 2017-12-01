@@ -15,21 +15,22 @@ void display(L1List<NinjaInfo_t>& nList) {
 }
 
 int main(int narg, char** argv) {
-    auto start = get_time::now(); //use auto keyword to minimize typing strokes :)
+    auto start = std::chrono::high_resolution_clock::now();
+    //use auto keyword to minimize typing strokes :)
     L1List<ninjaEvent_t>  eventList;
     L1List<NinjaInfo_t>   db;// database of NinjaInfo
+
     loadEvents(argv[1], eventList);
     loadNinjaDB(argv[2], db);
-
-
     cout << fixed << setprecision(12);// preset for floating point numbers
+
     /// Process events
-
     process(eventList, db);
-    cout << resetiosflags(ios::showbase) << setprecision(-1);
 
-    auto end = get_time::now();
-    auto diff = end - start;
-    cout << "Elapsed time is :  " << chrono::duration_cast<ns>(diff).count() << " s " << endl;
+    cout << resetiosflags(ios::showbase) << setprecision(-1);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+
+    cout << "Elapsed time is :  " << elapsed.count() << " s " << endl;
     return 0;
 }

@@ -100,10 +100,10 @@ public:
 /// Return 0 if success
 template <class T>
 int L1List<T>::push_back(T &a) {
+
     if (_pHead == NULL) {
         _pHead = new L1Item<T>(a);
         _pTail = _pHead;
-
 
     }
     else {

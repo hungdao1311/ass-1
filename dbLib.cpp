@@ -24,7 +24,7 @@
 using namespace std;
 
 void strPrintTime(char *des, time_t &t) {
-    tm *pTime = localtime(&t);
+    tm *pTime = gmtime(&t);
     strftime(des, 26, "%Y-%m-%d %H:%M:%S", pTime);
 }
 
@@ -34,30 +34,29 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
     file.open(fName);
     string str1;
     getline(file, str1); //skip 1st line
-    while (getline(file, str1, '\n')) {
 
-        struct tm tm;
-        char time[20];
-        char id[ID_MAX_LENGTH];
+    L1Item<NinjaInfo_t> *tempDB;
+
+    while (getline(file, str1, '\n')) {
+        if (str1.empty()) continue;
+        tm tm;
+        char time[19];
         double empty;
 
         NinjaInfo_t temp;
 
         //read all except time
         sscanf(str1.c_str(), "%lf,%[^','],%[^','],%lf,%lf,%lf,%lf,%lf,%lf",
-               &empty, time, &temp.id, &temp.longitude, &temp.latitude, &empty, &empty, &empty, &empty);
+               &empty, time, temp.id, &temp.longitude, &temp.latitude, &empty, &empty, &empty, &empty);
 
         //read time
-        sscanf(time, "%d/%d/%d %d:%d:%d",
-               &tm.tm_mon, &tm.tm_mday, &tm.tm_year, &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
+        strptime(time, "%m/%d/%Y %H:%M:%S", &tm);
 
-        tm.tm_year -= 1900;
-        tm.tm_mon -= 1;
-        temp.timestamp = mktime(&tm);
+        temp.timestamp = timegm(&tm);
 
         //padding ID
-        if (strlen(temp.id) < 4) {
-            int j = 4 - strlen(temp.id);
+        int j = 4 - strlen(temp.id);
+        if (j > 0) {
             for (int i = 4; i >= 0; i--) {
                 if (i - j >= 0) temp.id[i] = temp.id[i - j];
                 else temp.id[i] = '0';
@@ -66,26 +65,24 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
 
 
         //preprocess database
-        auto* tempDB = db.getHead();
+        tempDB = db.getHead();
         bool exist = false;
-            while(tempDB){
-                if(strcmp(tempDB->data.id, temp.id) == 0){
-                    tempDB->push_child(temp);
-                    exist = true;
-                }
-                tempDB = tempDB->pNext;
+        while (tempDB) {
+            if (strcmp(tempDB->data.id, temp.id) == 0) {
+                tempDB->push_child(temp);
+                exist = true;
             }
-            if(!exist){
-                db.push_back(temp);
-            }
+            tempDB = tempDB->pNext;
         }
-
-
-
+        if (!exist) {
+            db.push_back(temp);
+        }
+    }
+    file.close();
 }
 
 bool parseNinjaInfo(char *pBuf, NinjaInfo_t &nInfo) {
-    // TODO: write code to parse information from a string buffer, ignore if you don't use it
+    //TODO: write code to parse information from a string buffer, ignore if you don't use it
     return true;
 }
 
@@ -93,8 +90,6 @@ bool parseNinjaInfo(char *pBuf, NinjaInfo_t &nInfo) {
 void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
     void *pGData = NULL;
     initNinjaGlobalData(&pGData);
-    // loop counter
-    int i = 0;
 
     // copied eventList
     L1List<ninjaEvent_t> eventHolder;
@@ -111,14 +106,13 @@ void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
     while (!eventList.isEmpty()) {
         if (strcmp(eventList[0].code, "0") == 0) pGData = &eventHolder;
 
-
-
         if (!processEvent(eventList[0], bList, pGData))
             cout << eventList[0].code << " is an invalid event\n";
         eventList.removeHead();
     }
 
     releaseNinjaGlobalData(pGData);
+
 }
 
 
@@ -135,7 +129,9 @@ void releaseNinjaGlobalData(void *pGData) {
 
 
 void printNinjaInfo(NinjaInfo_t &b) {
-    printf("%s: (%0.5f, %0.5f), %s\n", b.id, b.longitude, b.latitude, ctime(&b.timestamp));
+    char temptime[19];
+    strPrintTime(temptime, b.timestamp);
+    printf("%s: (%0.5f, %0.5f), %s\n", b.id, b.longitude, b.latitude, temptime);
 }
 
 /// This function converts decimal degrees to radians
