@@ -32,6 +32,7 @@ void strPrintTime(char *des, time_t &t) {
 void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
     fstream file;
     file.open(fName);
+
     string str1;
     getline(file, str1); //skip 1st line
 
@@ -39,19 +40,21 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
 
     while (getline(file, str1, '\n')) {
         if (str1.empty()) continue;
-        tm tm;
+
         char time[19];
+        struct tm tm;
         double empty;
 
         NinjaInfo_t temp;
 
         //read all except time
+
         sscanf(str1.c_str(), "%lf,%[^','],%[^','],%lf,%lf,%lf,%lf,%lf,%lf",
                &empty, time, temp.id, &temp.longitude, &temp.latitude, &empty, &empty, &empty, &empty);
 
         //read time
-        strptime(time, "%m/%d/%Y %H:%M:%S", &tm);
 
+        strptime(time, "%m/%d/%Y %H:%M:%S", &tm);
         temp.timestamp = timegm(&tm);
 
         //padding ID
@@ -62,7 +65,6 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
                 else temp.id[i] = '0';
             }
         }
-
 
         //preprocess database
         tempDB = db.getHead();
@@ -77,6 +79,7 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
         if (!exist) {
             db.push_back(temp);
         }
+
     }
     file.close();
 }

@@ -63,6 +63,10 @@ public:
         return _pHead;
     };
 
+    L1Item<T>* getTail(){
+        return _pTail;
+    }
+
     T&      at(int i);
     T&      operator[](int i);
 
@@ -119,6 +123,7 @@ int L1Item<T>::push_child(T &a) {
     if(pTailchild == NULL) pTailchild = this;
     pTailchild->pChild = new L1Item<T>(a);
     pTailchild = pTailchild->pChild;
+    return 0;
 }
 
 /// Insert item to the front of the list
