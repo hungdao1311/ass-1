@@ -101,7 +101,7 @@ void process_5(L1List<NinjaInfo_t>& nList, char* id){
     }
 }
 
-void process_6_7(L1List<NinjaInfo_t>& nList, int code, char* id){
+void process_6_7(L1List<NinjaInfo_t>& nList, char code, char* id){
     L1List<NinjaInfo_t> stopList;
     L1Item<NinjaInfo_t>* temp6 = nList.getHead();
     L1Item<NinjaInfo_t>* des6 = new L1Item<NinjaInfo_t>();
@@ -118,13 +118,36 @@ void process_6_7(L1List<NinjaInfo_t>& nList, int code, char* id){
             } else break;
         }
         strPrintTime(ptime, stopList.getTail()->data.timestamp);
-        if(code == 6) cout << ptime << endl;
-        if(code == 7) cout << stopList.getSize() << endl;
+        if(code == '6') cout << ptime << endl;
+        if(code == '7') cout << stopList.getSize() << endl;
     }else {
         cout <<"-1" << endl;
     }
 }
-
+void process_89(L1List<NinjaInfo_t>& bList, char code, void*& pGData) {
+    double *dArray = new double[bList.getSize()];
+    int arrCount = 0;
+    char* maxDistID;
+    double tempMax = 0;
+    L1Item<NinjaInfo_t>* tempDist = bList.getHead();
+    while(tempDist){
+        L1Item<NinjaInfo_t>* tempHead = tempDist;
+        L1Item<NinjaInfo_t>* tempChild = tempDist->pChild;
+        while(tempChild){
+            dArray[arrCount] += distanceEarth(tempHead->data.latitude,tempHead->data.longitude, tempChild->data.latitude,tempChild->data.longitude);
+            tempHead = tempChild;
+            tempChild = tempChild->pChild;
+        }
+        if(dArray[arrCount] > tempMax){
+            tempMax = dArray[arrCount];
+            maxDistID = tempDist->data.id;
+        }
+        arrCount++;
+        tempDist = tempDist->pNext;
+    }
+    if(code == '8') pGData = dArray;
+    if(code == '9') pGData = maxDistID;
+};
 void process_8(L1List<NinjaInfo_t>& nList, char* id, void* pGData) {
     L1Item<NinjaInfo_t>* temp8 = nList.getHead();
     double* arr;
@@ -144,63 +167,92 @@ void process_9(void* pGData) {
     cout << "9: " << id << endl;
 }
 
+void process_11(L1List<NinjaInfo_t>& nList, char* id){
+    L1Item<NinjaInfo_t>* temp = nList.getHead();
+    char* delID = "0000";
+    int pos= 0, count = 0;
+    while(temp){
+        if(strcmp(delID, temp->data.id) < 0 && strcmp(id, temp->data.id) > 0){
+            delID = temp->data.id;
+            count = pos;
+        }
+        temp = temp->pNext;
+        pos++;
+    }
+    if(delID == "0000"){
+        cout << "11" << id << ": -1" << endl;
+    } else{
+        cout << "11" << id << ": " << delID << endl;
+        nList.remove(count);
+    }
+}
+
 
 
 bool processEvent(ninjaEvent_t& event, L1List<NinjaInfo_t>& nList, void* pGData) {
     // TODO: Your code comes here
-    int eCode;
-    char str[2];
+
     char ninjaID[4];
+
     //Get event code and ID
     if(strlen(event.code) == 1 || strlen(event.code) == 2) {
-        eCode = atoi(event.code);
 
     }
     else if(strlen(event.code) == 5){
-        strncpy(str, event.code, 1);
-        eCode = atoi(str);
         strncpy(ninjaID, event.code + 1,4);
+
     }
     else if(strlen(event.code) == 6){
-        strncpy(str, event.code, 2);
-        eCode = atoi(str);
         strncpy(ninjaID, event.code + 2, 4);
+
     }
     else return false;
 
-
     //Process event
-    switch(eCode){
-        case 0:
+    switch(event.code[0]){
+        case '0':
             process_0(pGData);
             break;
-        case 1:
-            cout << "1: " << nList[0].id << endl;
+        case '1': {
+            switch (event.code[1]) {
+                case '\0':
+                    cout << "1: " << nList[0].id << endl;
+                    break;
+                case '1':
+                    process_11(nList, ninjaID);
+                    break;
+                default: return false;
+            }
             break;
-        case 2:
+        }
+        case '2':
             process_2(nList);
             break;
-        case 3:
+        case '3':
             process_3(nList);
             break;
-        case 4:
+        case '4':
             process_4(nList);
             break;
-        case 5:
+        case '5':
             process_5(nList, ninjaID);
             break;
-        case 6:
-            process_6_7(nList, eCode, ninjaID);
+        case '6':
+            process_6_7(nList, '6', ninjaID);
             break;
-        case 7:
-            process_6_7(nList, eCode, ninjaID);
+        case '7':
+            process_6_7(nList, '7', ninjaID);
             break;
-        case 8:
+        case '8':
+            process_89(nList, '8', pGData);
             process_8(nList, ninjaID, pGData);
             break;
-        case 9:
+        case '9':
+            process_89(nList, '9', pGData);
             process_9(pGData);
             break;
+
+
         default: return false;
     }
     /// NOTE: The output of the event will be printed on one line

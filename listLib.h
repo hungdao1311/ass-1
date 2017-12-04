@@ -126,6 +126,28 @@ int L1Item<T>::push_child(T &a) {
     return 0;
 }
 
+template<class T>
+int L1List<T>::remove(int i) {
+    L1Item<T>* temp = new L1Item<T>();
+    if(i == 0){
+        temp = _pHead;
+        _pHead = _pHead->pNext;
+        delete temp;
+        _size--;
+        return 0;
+    }
+    L1Item<T>* p = this->_pHead;
+    int j = 0;
+    while (i-1>j){
+        p = p->pNext;
+        j++;
+    }
+    temp = p->pNext;
+    p->pNext = p->pNext->pNext;
+    delete temp;
+    _size--;
+    return 0;
+}
 /// Insert item to the front of the list
 /// Return 0 if success
 template <class T>
