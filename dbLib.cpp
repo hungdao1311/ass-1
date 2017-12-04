@@ -67,16 +67,14 @@ void loadNinjaDB(char *fName, L1List<NinjaInfo_t> &db) {
         }
 
         //preprocess database
-        tempDB = db.getHead();
-        bool exist = false;
-        while (tempDB) {
-            if (strcmp(tempDB->data.id, temp.id) == 0) {
-                tempDB->push_child(temp);
-                exist = true;
-            }
-            tempDB = tempDB->pNext;
+        tempDB = db.getTail();
+        if(!tempDB){
+            db.push_back(temp);
+            continue;
         }
-        if (!exist) {
+        if (strcmp(tempDB->data.id, temp.id) == 0) {
+            tempDB->push_child(temp);
+        } else {
             db.push_back(temp);
         }
 
@@ -106,9 +104,33 @@ void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
         Event = Event->pNext;
     }
 
+    //getdistance each ID
+    double *dArray = new double[bList.getSize()];
+    int arrCount = 0;
+    char* maxDistID;
+    double tempMax = 0;
+    L1Item<NinjaInfo_t>* tempDist = bList.getHead();
+    while(tempDist){
+        L1Item<NinjaInfo_t>* tempHead = tempDist;
+        L1Item<NinjaInfo_t>* tempChild = tempDist->pChild;
+        while(tempChild){
+            dArray[arrCount] += distanceEarth(tempHead->data.latitude,tempHead->data.longitude, tempChild->data.latitude,tempChild->data.longitude);
+            tempHead = tempChild;
+            tempChild = tempChild->pChild;
+        }
+        if(dArray[arrCount] > tempMax){
+            tempMax = dArray[arrCount];
+            maxDistID = tempDist->data.id;
+        }
+        arrCount++;
+        tempDist = tempDist->pNext;
+    }
+
+
     while (!eventList.isEmpty()) {
         if (strcmp(eventList[0].code, "0") == 0) pGData = &eventHolder;
-
+        if (eventList[0].code[0] == '8') pGData = dArray;
+        if (strcmp(eventList[0].code, "9") == 0 ) pGData = maxDistID;
         if (!processEvent(eventList[0], bList, pGData))
             cout << eventList[0].code << " is an invalid event\n";
         eventList.removeHead();

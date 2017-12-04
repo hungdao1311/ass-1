@@ -37,7 +37,7 @@ struct L1Item {
     L1Item<T> *pNext;
     L1Item<T> *pChild;
     L1Item<T> *pTailchild;
-    L1Item() : pNext(NULL) {}
+    L1Item() : pNext(NULL), pChild(NULL), pTailchild(NULL) {}
     L1Item(T &a) : data(a), pNext(NULL), pChild(NULL), pTailchild(NULL) {}
     int push_child(T&a);
 };

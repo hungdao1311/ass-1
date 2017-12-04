@@ -11,10 +11,12 @@ void printEvent(ninjaEvent_t &b){
     cout << b.code << " ";
 }
 
-bool getIDp(L1Item<NinjaInfo_t> *&pHead, char* id) {
+bool getIDp(L1Item<NinjaInfo_t> *&pHead, char* id, int& pos) {
+    pos = 0;
     while(pHead){
         if(strcmp(id, pHead->data.id) == 0) return true;
         pHead = pHead->pNext;
+        pos++;
     }
     return false;
 }
@@ -89,8 +91,9 @@ void process_5(L1List<NinjaInfo_t>& nList, char* id){
     L1Item<NinjaInfo_t>* temp5 = nList.getHead();
     L1Item<NinjaInfo_t>* des5 = new L1Item<NinjaInfo_t>();
     char ptime[19];
+    int trash;
     cout << "5" << id << ": ";
-    if(getIDp(temp5, id)&& getNextMove(temp5,des5)){
+    if(getIDp(temp5, id, trash)&& getNextMove(temp5,des5)){
         strPrintTime(ptime, des5->data.timestamp);
         cout << ptime << endl;
     } else {
@@ -103,8 +106,9 @@ void process_6_7(L1List<NinjaInfo_t>& nList, int code, char* id){
     L1Item<NinjaInfo_t>* temp6 = nList.getHead();
     L1Item<NinjaInfo_t>* des6 = new L1Item<NinjaInfo_t>();
     char ptime[19];
+    int trash;
     cout << code << id << ": ";
-    if(getIDp(temp6, id)){
+    if(getIDp(temp6, id, trash)){
         if(!checkDistance(temp6, temp6->pChild)){
             stopList.push_back(temp6->data);
         }
@@ -120,6 +124,26 @@ void process_6_7(L1List<NinjaInfo_t>& nList, int code, char* id){
         cout <<"-1" << endl;
     }
 }
+
+void process_8(L1List<NinjaInfo_t>& nList, char* id, void* pGData) {
+    L1Item<NinjaInfo_t>* temp8 = nList.getHead();
+    double* arr;
+    arr = static_cast<double*>(pGData);
+    int count;
+    cout << "8" << id << ": " ;
+    if(getIDp(temp8, id, count)){
+        cout << arr[count] << endl;
+    } else{
+        cout << "-1" << endl;
+    }
+}
+
+void process_9(void* pGData) {
+    char* id;
+    id = static_cast<char*>(pGData);
+    cout << "9: " << id << endl;
+}
+
 
 
 bool processEvent(ninjaEvent_t& event, L1List<NinjaInfo_t>& nList, void* pGData) {
@@ -170,6 +194,12 @@ bool processEvent(ninjaEvent_t& event, L1List<NinjaInfo_t>& nList, void* pGData)
             break;
         case 7:
             process_6_7(nList, eCode, ninjaID);
+            break;
+        case 8:
+            process_8(nList, ninjaID, pGData);
+            break;
+        case 9:
+            process_9(pGData);
             break;
         default: return false;
     }
