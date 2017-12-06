@@ -108,10 +108,12 @@ int L1List<T>::push_back(T &a) {
     if (_pHead == NULL) {
         _pHead = new L1Item<T>(a);
         _pTail = _pHead;
+        _pHead->pTailchild = _pHead;
 
     }
     else {
         _pTail->pNext = new L1Item<T>(a);
+        _pTail->pNext->pTailchild = _pTail->pNext;
         _pTail = _pTail->pNext;
     }
     _size++;
@@ -120,7 +122,6 @@ int L1List<T>::push_back(T &a) {
 
 template<class T>
 int L1Item<T>::push_child(T &a) {
-    if(pTailchild == NULL) pTailchild = this;
     pTailchild->pChild = new L1Item<T>(a);
     pTailchild = pTailchild->pChild;
     return 0;

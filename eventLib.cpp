@@ -20,6 +20,9 @@ void loadEvents(char* fName, L1List<ninjaEvent_t> &eList) {
     while(getline(file,str,'\n')){
         istringstream ss(str);
         while(ss >> str1) {
+            if(str1[str1.length()-1] == ';'){
+                str1[str1.length()-1] = '\0';
+            }
             ninjaEvent_t temp(str1);
             eList.push_back(temp);
         }
