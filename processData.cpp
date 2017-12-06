@@ -77,7 +77,7 @@ bool getNextStop(L1Item<NinjaInfo_t> *pHead, L1Item<NinjaInfo_t> *&pDes) {
 void process_0(void *pGData) {
     L1List<ninjaEvent_t> *event;
     event = static_cast<L1List<ninjaEvent_t> *>(pGData);
-    cout << "0: ";
+    cout << "0:";
     event->traverse(printEvent);
     cout << endl;
 }
@@ -151,8 +151,7 @@ void process_89(L1List<NinjaInfo_t> &bList, char code, void *&pGData) {
         L1Item<NinjaInfo_t> *tempHead = tempDist;
         L1Item<NinjaInfo_t> *tempChild = tempDist->pChild;
         while (tempChild) {
-            dArray[arrCount] += distanceEarth(tempHead->data.latitude, tempHead->data.longitude,
-                                              tempChild->data.latitude, tempChild->data.longitude);
+            dArray[arrCount] += getDistance(tempHead, tempChild);
             tempHead = tempChild;
             tempChild = tempChild->pChild;
         }
@@ -163,18 +162,22 @@ void process_89(L1List<NinjaInfo_t> &bList, char code, void *&pGData) {
         arrCount++;
         tempDist = tempDist->pNext;
     }
-    if (code == '8') pGData = dArray;
-    if (code == '9') pGData = maxDistID;
+    pGData = maxDistID;
 };
 
-void process_8(L1List<NinjaInfo_t> &nList, char *id, void *pGData) {
+void process_8(L1List<NinjaInfo_t> &nList, char *code) {
     L1Item<NinjaInfo_t> *temp8 = nList.getHead();
-    double *arr;
-    arr = static_cast<double *>(pGData);
-    int count;
-    cout << id << ": ";
-    if (getIDp(temp8, id+1, count)) {
-        cout << arr[count] << endl;
+    double distance = 0;
+    int trash;
+    cout << code << ": ";
+    if (getIDp(temp8, code+1, trash)) {
+        L1Item<NinjaInfo_t> *tempChild = temp8->pChild;
+        while(tempChild){
+            distance += getDistance(temp8,tempChild);
+            temp8 = tempChild;
+            tempChild = tempChild->pChild;
+        }
+        cout << distance << endl;
     } else {
         cout << "-1" << endl;
     }
@@ -301,8 +304,7 @@ bool processEvent(ninjaEvent_t &event, L1List<NinjaInfo_t> &nList, void *pGData)
             break;
         case '8':
             if(event.code[1] == '\0') return false;
-            process_89(nList, '8', pGData);
-            process_8(nList, event.code, pGData);
+            process_8(nList, event.code);
             break;
         case '9':
             if(event.code[1] != '\0') return false;
