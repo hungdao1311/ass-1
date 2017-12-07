@@ -32,22 +32,23 @@ bool checkDistance(L1Item<NinjaInfo_t> *pHead, L1Item<NinjaInfo_t> *pDes) {
 }
 
 bool getPreNextMove(L1Item<NinjaInfo_t> *pHead, L1Item<NinjaInfo_t> *&pDes) {
-    if(!pHead) return false;
+    if (!pHead) return false;
     pDes = pHead->pChild;
-    if(!pDes) return false;
+    if (!pDes) return false;
     if (checkDistance(pHead, pDes)) {
         pDes = pHead;
         return true;
     }
     while (pDes->pChild) {
         if (checkDistance(pHead, pDes->pChild)) return true;
-        if(!(pDes->pChild)) return true;
+        if (!(pDes->pChild)) return true;
         pDes = pDes->pChild;
     }
     return true;
 }
 
 bool getNextMove(L1Item<NinjaInfo_t> *pHead, L1Item<NinjaInfo_t> *&pDes) {
+    if (!pHead) return false;
     pDes = pHead->pChild;
     if (checkDistance(pHead, pDes)) {
         pDes = pHead;
@@ -61,6 +62,7 @@ bool getNextMove(L1Item<NinjaInfo_t> *pHead, L1Item<NinjaInfo_t> *&pDes) {
 }
 
 bool getNextStop(L1Item<NinjaInfo_t> *pHead, L1Item<NinjaInfo_t> *&pDes) {
+    if (!pHead) return false;
     pDes = pHead->pChild;
     while (pDes) {
         if (checkDistance(pHead, pDes)) {
@@ -82,9 +84,10 @@ void process_0(void *pGData) {
     cout << endl;
 }
 
-void process_2(L1List<NinjaInfo_t> &nList) {
-
-    cout << "2: " << nList[nList.getSize() - 1].id << endl;
+void process_2(void* pGData) {
+    char *id;
+    id = static_cast<char*>(pGData);
+    cout << "2: " << id << endl;
 }
 
 void process_3(L1List<NinjaInfo_t> &nList) {
@@ -93,6 +96,10 @@ void process_3(L1List<NinjaInfo_t> &nList) {
 
 void process_4(L1List<NinjaInfo_t> &nList) {
     L1Item<NinjaInfo_t> *node = nList.getHead();
+    if(!node) {
+        cout << "4: empty" << endl;
+        return;
+    }
     const char *temp = node->data.id;
     while (node) {
         if (strcmp(temp, node->data.id) < 0) {
@@ -105,11 +112,15 @@ void process_4(L1List<NinjaInfo_t> &nList) {
 
 void process_5(L1List<NinjaInfo_t> &nList, char *code) {
     L1Item<NinjaInfo_t> *temp5 = nList.getHead();
+    if(!temp5) {
+        cout << code << ": -1" << endl;
+        return;
+    }
     L1Item<NinjaInfo_t> *des5 = new L1Item<NinjaInfo_t>();
     char ptime[19];
     int trash;
     cout << code << ": ";
-    if (getIDp(temp5, code+1, trash) && getNextMove(temp5, des5)) {
+    if (getIDp(temp5, code + 1, trash) && getNextMove(temp5, des5)) {
         strPrintTime(ptime, des5->data.timestamp);
         cout << ptime << endl;
     } else {
@@ -117,14 +128,18 @@ void process_5(L1List<NinjaInfo_t> &nList, char *code) {
     }
 }
 
-void process_6_7(L1List<NinjaInfo_t> &nList, char* code) {
+void process_6_7(L1List<NinjaInfo_t> &nList, char *code) {
     L1List<NinjaInfo_t> stopList;
     L1Item<NinjaInfo_t> *temp6 = nList.getHead();
+    if(!temp6) {
+        cout << code << ": -1" << endl;
+        return;
+    }
     L1Item<NinjaInfo_t> *des6 = new L1Item<NinjaInfo_t>();
     char ptime[19];
     int trash;
     cout << code << ": ";
-    if (getIDp(temp6, code+1, trash)) {
+    if (getIDp(temp6, code + 1, trash)) {
         if (!checkDistance(temp6, temp6->pChild)) {
             stopList.push_back(temp6->data);
         }
@@ -141,7 +156,11 @@ void process_6_7(L1List<NinjaInfo_t> &nList, char* code) {
     }
 }
 
-void process_89(L1List<NinjaInfo_t> &bList, char code, void *&pGData) {
+void process_9(L1List<NinjaInfo_t> &bList, void *&pGData) {
+    if(bList.getSize() == 0){
+        cout << "9: -1" << endl;
+        return;
+    }
     double *dArray = new double[bList.getSize()];
     int arrCount = 0;
     char *maxDistID;
@@ -162,18 +181,22 @@ void process_89(L1List<NinjaInfo_t> &bList, char code, void *&pGData) {
         arrCount++;
         tempDist = tempDist->pNext;
     }
-    pGData = maxDistID;
+    cout << "9: " << maxDistID << endl;
 };
 
 void process_8(L1List<NinjaInfo_t> &nList, char *code) {
     L1Item<NinjaInfo_t> *temp8 = nList.getHead();
+    if(!temp8) {
+        cout << code << ": -1" << endl;
+        return;
+    }
     double distance = 0;
     int trash;
     cout << code << ": ";
-    if (getIDp(temp8, code+1, trash)) {
+    if (getIDp(temp8, code + 1, trash)) {
         L1Item<NinjaInfo_t> *tempChild = temp8->pChild;
-        while(tempChild){
-            distance += getDistance(temp8,tempChild);
+        while (tempChild) {
+            distance += getDistance(temp8, tempChild);
             temp8 = tempChild;
             tempChild = tempChild->pChild;
         }
@@ -183,45 +206,45 @@ void process_8(L1List<NinjaInfo_t> &nList, char *code) {
     }
 }
 
-void process_9(void *pGData) {
-    char *id;
-    id = static_cast<char *>(pGData);
-    cout << "9: " << id << endl;
-}
+
 
 void process_10_12(L1List<NinjaInfo_t> &nList, char code) {
     L1Item<NinjaInfo_t> *temp10 = nList.getHead();
+    if(!temp10) {
+        cout << "1" << code << ": -1" << endl;
+        return;
+    }
     temp10->pTailchild = nList.getHead()->pTailchild;
     double stoptime = 0, movetime = 0;
-    char* tempMaxID, *tempMinID;
+    char *tempMaxID, *tempMinID;
     while (temp10) {
         L1Item<NinjaInfo_t> *tempHead = temp10;
         L1Item<NinjaInfo_t> *des10 = new L1Item<NinjaInfo_t>();
         double temptime = 0, temptime2 = 0;
-        while(tempHead){
+        while (tempHead) {
             getNextStop(tempHead, des10);
-            if(!des10) break;
-            getPreNextMove(des10,tempHead);
-            temptime += difftime(tempHead->data.timestamp,des10->data.timestamp);
+            if (!des10) break;
+            getPreNextMove(des10, tempHead);
+            temptime += difftime(tempHead->data.timestamp, des10->data.timestamp);
             tempHead = tempHead->pChild;
         }
         temptime2 = difftime(temp10->pTailchild->data.timestamp, temp10->data.timestamp) - temptime;
 
-        if(temptime > stoptime) {
+        if (temptime > stoptime) {
             stoptime = temptime;
             tempMaxID = temp10->data.id;
         }
 
-        if(temptime2 > movetime){
+        if (temptime2 > movetime) {
             movetime = temptime2;
             tempMinID = temp10->data.id;
         }
         temp10 = temp10->pNext;
     }
-    if(code == '0'){
-        cout <<"10: " << tempMinID << endl;
-    } else{
-        cout <<"12: " << tempMaxID << endl;
+    if (code == '0') {
+        cout << "10: " << tempMinID << endl;
+    } else {
+        cout << "12: " << tempMaxID << endl;
     }
 }
 
@@ -230,7 +253,7 @@ void process_11(L1List<NinjaInfo_t> &nList, char *code) {
     char *delID = "0000";
     int pos = 0, count = 0;
     while (temp) {
-        if (strcmp(delID, temp->data.id) < 0 && strcmp(code+2, temp->data.id) > 0) {
+        if (strcmp(delID, temp->data.id) < 0 && strcmp(code + 2, temp->data.id) > 0) {
             delID = temp->data.id;
             count = pos;
         }
@@ -246,6 +269,53 @@ void process_11(L1List<NinjaInfo_t> &nList, char *code) {
 }
 
 
+
+void process_14(L1List<NinjaInfo_t> &nList) {
+    cout << "14:";
+    L1Item<NinjaInfo_t> *temp14 = nList.getHead();
+    if(!temp14) {
+        cout  << " -1" << endl;
+        return;
+    }
+    while (temp14) {
+        //create checkpoint list
+        L1List<NinjaInfo_t> templist;
+        bool Lost = false;
+        L1Item<NinjaInfo_t> *head14 = temp14;
+        L1Item<NinjaInfo_t> *des14 = new L1Item<NinjaInfo_t>();
+        if (!checkDistance(head14, head14->pChild)) {
+            templist.push_back(head14->data);
+        }
+        while (getNextMove(head14, des14)) {
+            getNextStop(des14, head14);
+            while (head14 != des14) {
+                templist.push_back(des14->data);
+                des14 = des14->pChild;
+            }
+            if (head14) {
+                templist.push_back(head14->data);
+            }
+        }
+        if(templist.getSize() < 2) continue;
+        L1Item<NinjaInfo_t>* tempdes = templist.getHead()->pNext->pNext;
+        while(tempdes != templist.getTail()){
+            L1Item<NinjaInfo_t>* temphead = templist.getHead();
+            while(temphead != tempdes){
+                if(!checkDistance(temphead,tempdes)){
+                    Lost = true;
+                    break;
+                }
+                temphead = temphead->pNext;
+            }
+            if(Lost) break;
+            tempdes = tempdes->pNext;
+        }
+        if(Lost) cout <<" " << temp14->data.id ;
+        temp14 = temp14->pNext;
+    }
+    cout << endl;
+}
+
 bool processEvent(ninjaEvent_t &event, L1List<NinjaInfo_t> &nList, void *pGData) {
     // TODO: Your code comes here
 
@@ -256,60 +326,69 @@ bool processEvent(ninjaEvent_t &event, L1List<NinjaInfo_t> &nList, void *pGData)
         case '1': {
             switch (event.code[1]) {
                 case '\0':
-                    cout << "1: " << nList[0].id << endl;
+                    char *id;
+                    id = static_cast<char*>(pGData);
+                    cout << "1: " << id << endl;
                     break;
                 case '0' :
-                    if(event.code[2] != '\0') return false;
+                    if (event.code[2] != '\0') return false;
                     process_10_12(nList, '0');
                     break;
                 case '1':
-                    if(event.code[2] == '\0') return false;
+                    if (event.code[2] == '\0') return false;
                     process_11(nList, event.code);
                     break;
                 case '2':
-                    if(event.code[2] != '\0') return false;
+                    if (event.code[2] != '\0') return false;
                     process_10_12(nList, '2');
                     break;
                 case '3':
-                    if(event.code[2] == '\0') return false;
+                    if (event.code[2] == '\0') return false;
                     else return true;
+                case '4':
+                    if (event.code[2] != '\0') return false;
+                    process_14(nList);
+                    break;
                 default:
                     return false;
             }
             break;
         }
         case '2':
-            if(event.code[1] != '\0') return false;
-            process_2(nList);
+            if (event.code[1] != '\0') return false;
+            process_2(pGData);
             break;
         case '3':
-            if(event.code[1] != '\0') return false;
+            if (event.code[1] != '\0') return false;
             process_3(nList);
             break;
         case '4':
-            if(event.code[1] != '\0') return false;
+            if (event.code[1] != '\0') return false;
             process_4(nList);
             break;
         case '5':
-            if(event.code[1] == '\0') return false;
+            if (event.code[1] == '\0') return false;
             process_5(nList, event.code);
             break;
         case '6':
-            if(event.code[1] == '\0') return false;
+            if (event.code[1] == '\0') return false;
             process_6_7(nList, event.code);
             break;
         case '7':
-            if(event.code[1] == '\0') return false;
+            if (event.code[1] == '\0') return false;
             process_6_7(nList, event.code);
             break;
         case '8':
-            if(event.code[1] == '\0') return false;
+            if (event.code[1] == '\0') return false;
             process_8(nList, event.code);
             break;
         case '9':
-            if(event.code[1] != '\0') return false;
-            process_89(nList, '9', pGData);
-            process_9(pGData);
+            if (event.code[1] != '\0') return false;
+            if(nList.getSize() == 0) {
+                cout << "9: -1" << endl;
+                break;
+            }
+            process_9(nList, pGData);
             break;
 
 

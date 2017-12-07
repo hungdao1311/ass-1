@@ -104,12 +104,16 @@ void process(L1List<ninjaEvent_t> &eventList, L1List<NinjaInfo_t> &bList) {
         Event = Event->pNext;
     }
 
+    char* idfirst = bList.getHead()->pChild->data.id;
+    char* idlast = bList.getTail()->pChild->data.id;
     //getdistance each ID
 
 
 
     while (!eventList.isEmpty()) {
         if (strcmp(eventList[0].code, "0") == 0) pGData = &eventHolder;
+        if (eventList[0].code[0] == '1') pGData = idfirst;
+        if (eventList[0].code[0] == '2') pGData = idlast;
         if (!processEvent(eventList[0], bList, pGData))
             cout << eventList[0].code << " is an invalid event\n";
         eventList.removeHead();
